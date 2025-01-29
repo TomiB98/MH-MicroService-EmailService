@@ -2,6 +2,7 @@ package com.example.email_service.services;
 
 import com.example.email_service.dtos.OrderEmailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
@@ -12,31 +13,27 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private JavaMailSender emailSender;
 
-    @Override
-    public void sendOrderEmail(String to, OrderEmailDTO orderEmailDTO) {
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("testgrupo001@gmail.com");
-            message.setTo(to);
-            message.setSubject("Detalles de tu orden");
+    @Value("${EMAIL_1}") // Inyecta la variable de entorno
+    private String email;
 
-            // Construir el mensaje del correo con los detalles de la orden
-            StringBuilder emailContent = new StringBuilder();
-            emailContent.append("Gracias por tu compra!\n\n");
-            emailContent.append("Detalles de la orden:\n");
-            for (OrderEmailDTO.OrderItemEmailDTO item : orderEmailDTO.getOrderItems()) {
-                emailContent.append("- Producto: ").append(item.getProductName())
-                        .append("\n  Precio: $").append(item.getProductPrice())
-                        .append("\n  Cantidad: ").append(item.getQuantity())
-                        .append("\n\n");
-            }
-            emailContent.append("Total: $").append(orderEmailDTO.getTotal());
+    public void sendOrderEmail(OrderEmailDTO orderEmailDTO) {
+        StringBuilder emailContent = new StringBuilder();
+        emailContent.append("Orden creada para el usuario ID: ").append(orderEmailDTO.getUserId()).append("\n");
+        emailContent.append("Total: ").append(orderEmailDTO.getTotalAmount()).append("\n\n");
+        emailContent.append("Detalles de los productos:\n");
 
-            message.setText(emailContent.toString());
-
-            emailSender.send(message);
-        } catch (Exception e) {
-            System.out.println("Error al enviar el email: " + e.getMessage());
+        for (OrderEmailDTO.OrderItemDTO item : orderEmailDTO.getItems()) {
+            emailContent.append("- Producto: ").append(item.getProductName())
+                    .append(" (ID: ").append(item.getProductId()).append(")\n")
+                    .append("  Precio: ").append(item.getProductPrice())
+                    .append(", Cantidad: ").append(item.getQuantity()).append("\n\n");
         }
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email); // Cambia esto
+        message.setSubject("Orden creada");
+        message.setText(emailContent.toString());
+
+        emailSender.send(message);
     }
 }

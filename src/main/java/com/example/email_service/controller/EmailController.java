@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/email")
 public class EmailController {
 
-    @Autowired
-    private EmailService emailService;
+        @Autowired
+        private EmailService emailService;
 
-    @Value("${EMAIL_1}") // Inyecta la variable de entorno
-    private String email;
+        @Value("${EMAIL_1}") // Inyecta la variable de entorno
+        private String email;
 
-    @PostMapping("/order")
-    public ResponseEntity<String> sendOrderEmail(@RequestBody OrderEmailDTO orderEmailDTO) {
-        emailService.sendOrderEmail(email, orderEmailDTO);
-        return ResponseEntity.ok("Order email sent successfully.");
-    }
+//        @GetMapping("/order")
+//        public ResponseEntity<String> getMessage() {
+//            emailService.sendSimpleMessage(email, "Hola", "Hola");
+//            return ResponseEntity.ok("Message received");
+//        }
 
 }

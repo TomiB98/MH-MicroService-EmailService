@@ -4,48 +4,69 @@ import java.util.List;
 
 public class OrderEmailDTO {
     private Long userId;
-    private List<OrderItemEmailDTO> orderItems;
-    private Double total;
+    private Double totalAmount;
+    private List<OrderItemDTO> items;
 
-    public OrderEmailDTO(Long userId, List<OrderItemEmailDTO> orderItems, Double total) {
-        this.userId = userId;
-        this.orderItems = orderItems;
-        this.total = total;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public List<OrderItemEmailDTO> getOrderItems() {
-        return orderItems;
-    }
-
-    public Double getTotal() {
-        return total;
-    }
-
-    public static class OrderItemEmailDTO {
+    public static class OrderItemDTO {
+        private Long productId;
         private String productName;
         private Double productPrice;
         private Integer quantity;
 
-        public OrderItemEmailDTO(String productName, Double productPrice, Integer quantity) {
-            this.productName = productName;
-            this.productPrice = productPrice;
-            this.quantity = quantity;
+        public Long getProductId() {
+            return productId;
+        }
+
+        public void setProductId(Long productId) {
+            this.productId = productId;
         }
 
         public String getProductName() {
             return productName;
         }
 
+        public void setProductName(String productName) {
+            this.productName = productName;
+        }
+
         public Double getProductPrice() {
             return productPrice;
+        }
+
+        public void setProductPrice(Double productPrice) {
+            this.productPrice = productPrice;
         }
 
         public Integer getQuantity() {
             return quantity;
         }
+
+        public void setQuantity(Integer quantity) {
+            this.quantity = quantity;
+        }
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public List<OrderItemDTO> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItemDTO> items) {
+        this.items = items;
     }
 }
