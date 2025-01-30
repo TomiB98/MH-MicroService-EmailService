@@ -4,6 +4,7 @@ import java.util.List;
 
 public class OrderEmailDTO {
     private Long userId;
+    private String email;
     private Double totalAmount;
     private List<OrderItemDTO> items;
 
@@ -52,6 +53,14 @@ public class OrderEmailDTO {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getUserEmail() {
+        return email;
+    }
+
+    public void setUserEmail(String email) {
+        this.email = email;
     }
 
     public Double getTotalAmount() {
