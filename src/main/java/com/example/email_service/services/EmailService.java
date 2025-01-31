@@ -10,5 +10,5 @@ import java.io.IOException;
 public interface EmailService {
 
     void sendOrderEmail(OrderEmailDTO orderEmailDTO) throws MessagingException, IOException;
-
+    void sendWelcomeEmail(String email);
 }

@@ -20,4 +20,10 @@ public class RabbitMQConsumer {
         System.out.println("Orden recibida: " + orderEmailDTO);
         emailService.sendOrderEmail(orderEmailDTO);
     }
+
+    @RabbitListener(queues = "welcomeEmailQueue")
+    public void receiveWelcomeEmail(String email) {
+        System.out.println("Email recibido: " + email);
+        emailService.sendWelcomeEmail(email);
+    }
 }

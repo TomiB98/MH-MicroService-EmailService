@@ -29,6 +29,24 @@ public class EmailServiceImpl implements EmailService {
     @Value("${EMAIL_1}") // Inyecta la variable de entorno
     private String email;
 
+    @Override
+    public void sendWelcomeEmail(String registerEmail) {
+        String emailContent = "Bienvenido a nuestro microservicio!" + "\n\n" +
+                "Se ha registrado correctamente con el email: " + registerEmail + "\n\n" +
+                "Ya puede loggearse y comenzar a realizar ordenes \n";
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(registerEmail); // Cambia esto
+        message.setSubject("Su registro ah sido exitoso!");
+        message.setText(emailContent);
+
+        emailSender.send(message);
+    }
+
+
+
+
+
     public void sendOrderEmail(OrderEmailDTO orderEmailDTO) throws MessagingException, IOException {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true); // Soporta adjuntos
