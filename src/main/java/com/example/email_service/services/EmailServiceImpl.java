@@ -56,7 +56,7 @@ public class EmailServiceImpl implements EmailService {
 
         // Construcción del cuerpo del email
         StringBuilder emailContent = new StringBuilder();
-        emailContent.append("Felicidades su orden ah sido creada se le informara cuando sea enviada.").append("\n\n");
+        emailContent.append("Felicidades su orden ah sido creada correctamente, se le informara cuando sea enviada.").append("\n\n");
         emailContent.append("Orden creada para el usuario: ").append(orderEmailDTO.getUserEmail()).append("\n");
         emailContent.append("Total de la orden: ").append(orderEmailDTO.getTotalAmount()).append("$ \n\n");
         emailContent.append("# Detalles de los productos:\n");
