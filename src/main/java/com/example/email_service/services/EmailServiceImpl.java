@@ -46,14 +46,30 @@ public class EmailServiceImpl implements EmailService {
     }
 
 
-    public void sendVerificationEmail(VerificationEmailDTO verificationEmailDTO) {
-        String emailContent = "Haga click en el siguiente enlace para validar su correo e iniciar sesion!" + "\n\n" +
-                "http://localhost:8080/api/auth/verify?token=" + verificationEmailDTO.getToken();
+    public void sendVerificationEmail(VerificationEmailDTO verificationEmailDTO) throws MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(verificationEmailDTO.getEmail());
-        message.setSubject("Valide su correo!");
-        message.setText(emailContent);
+        helper.setTo(verificationEmailDTO.getEmail());
+        helper.setSubject("Valide su correo!");
+
+        helper.setText("Haga click en el siguiente enlace para validar su correo e iniciar sesion!" + "\n\n");
+
+        String htmlContent = "<html>" +
+                "<body>" +
+                "<p>Haz clic en el botón para verificar su correo:</p>" +
+                "<a href='" + "http://localhost:8080/api/auth/verify?token=" + verificationEmailDTO.getToken() + "' style='display: inline-block; padding: 10px 20px; font-size: 16px; color: white; background-color: #007bff; text-decoration: none; border-radius: 5px;'>Validar</a>" +
+                "</body>" +
+                "</html>";
+
+        helper.setText(htmlContent, true);
+
+        //                "http://localhost:8080/api/auth/verify?token=" + verificationEmailDTO.getToken();
+
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setTo(verificationEmailDTO.getEmail());
+//        message.setSubject("Valide su correo!");
+//        message.setText(emailContent);
 
         emailSender.send(message);
     }

@@ -12,5 +12,5 @@ public interface EmailService {
 
     void sendOrderEmail(OrderEmailDTO orderEmailDTO) throws MessagingException, IOException;
     void sendWelcomeEmail(String email);
-    void sendVerificationEmail(VerificationEmailDTO verificationEmailDTO);
+    void sendVerificationEmail(VerificationEmailDTO verificationEmailDTO) throws MessagingException;
 }

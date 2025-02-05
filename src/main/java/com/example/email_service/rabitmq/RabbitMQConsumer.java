@@ -29,7 +29,7 @@ public class RabbitMQConsumer {
     }
 
     @RabbitListener(queues = "verificationEmailQueue")
-    public void receiveVerificationEmail(VerificationEmailDTO verificationEmailDTO) {
+    public void receiveVerificationEmail(VerificationEmailDTO verificationEmailDTO) throws MessagingException {
         System.out.println("Email recibido: " + verificationEmailDTO);
         emailService.sendVerificationEmail(verificationEmailDTO);
     }
