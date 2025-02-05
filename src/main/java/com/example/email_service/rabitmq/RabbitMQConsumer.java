@@ -1,5 +1,6 @@
 package com.example.email_service.rabitmq;
 
+import com.example.email_service.dtos.VerificationEmailDTO;
 import com.example.email_service.services.EmailService;
 import com.example.email_service.dtos.OrderEmailDTO;
 import jakarta.mail.MessagingException;
@@ -25,5 +26,11 @@ public class RabbitMQConsumer {
     public void receiveWelcomeEmail(String email) {
         System.out.println("Email recibido: " + email);
         emailService.sendWelcomeEmail(email);
+    }
+
+    @RabbitListener(queues = "verificationEmailQueue")
+    public void receiveVerificationEmail(VerificationEmailDTO verificationEmailDTO) {
+        System.out.println("Email recibido: " + verificationEmailDTO);
+        emailService.sendVerificationEmail(verificationEmailDTO);
     }
 }

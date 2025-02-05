@@ -1,6 +1,7 @@
 package com.example.email_service.services;
 
 import com.example.email_service.dtos.OrderEmailDTO;
+import com.example.email_service.dtos.VerificationEmailDTO;
 import jakarta.activation.DataSource;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -29,6 +30,7 @@ public class EmailServiceImpl implements EmailService {
     @Value("${EMAIL_1}") // Inyecta la variable de entorno
     private String email;
 
+
     @Override
     public void sendWelcomeEmail(String registerEmail) {
         String emailContent = "Bienvenido a nuestro microservicio!" + "\n\n" +
@@ -44,7 +46,17 @@ public class EmailServiceImpl implements EmailService {
     }
 
 
+    public void sendVerificationEmail(VerificationEmailDTO verificationEmailDTO) {
+        String emailContent = "Haga click en el siguiente enlace para validar su correo e iniciar sesion!" + "\n\n" +
+                "http://localhost:8080/api/auth/verify?token=" + verificationEmailDTO.getToken();
 
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(verificationEmailDTO.getEmail());
+        message.setSubject("Valide su correo!");
+        message.setText(emailContent);
+
+        emailSender.send(message);
+    }
 
 
     public void sendOrderEmail(OrderEmailDTO orderEmailDTO) throws MessagingException, IOException {
